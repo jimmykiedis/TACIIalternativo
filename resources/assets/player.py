@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+from Settings import *
 
 class Player():
     def __init__(self, x, y) :
@@ -8,24 +9,49 @@ class Player():
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.vel_y = 0
 
-    def update(self):                               #desenhar o corno do jogador
-        global tela
+    def update(self):                               
+        
+        dx = 0
+        dy = 0
 
-def teclas():
-    keys = pygame.key.get_pressed()
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+            print("Movendo para a esquerda")
+            dx -= 5
 
-    if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-        print("Movendo para a esquerda")
-    if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-        print("Movendo para a direita")
-    if keys[pygame.K_UP] or keys[pygame.K_w]:
-        print("Olhando para cima")
-    if keys[pygame.K_DOWN] or keys[pygame.K_s]:
-        print("Olhando para baixo")
-    if keys[pygame.K_SPACE]:
-        print("Pulando")
-    if keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]:
-        print("Correndo")
-    if keys[pygame.K_LCTRL] or keys[pygame.K_LCTRL]:
-        print("Abaixando")
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+            print("Movendo para a direita")
+            dx += 5
+
+        if keys[pygame.K_UP] or keys[pygame.K_w]:
+            print("Olhando para cima")
+
+        if keys[pygame.K_DOWN] or keys[pygame.K_s]:
+            print("Olhando para baixo")
+
+        if keys[pygame.K_SPACE]:
+            print("Pulando")
+            self.vel_y =-15
+
+        if keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]:
+            print("Correndo")
+
+        if keys[pygame.K_LCTRL] or keys[pygame.K_LCTRL]:
+            print("Abaixando")
+
+        #criando a gravidade
+        self.vel_y += 1
+        
+        dy += self.vel_y
+
+        #checar se o corno colidiu
+
+        #atualizar as cordenadas do corno
+        self.rect.x += dx
+        self.rect.y += dy
+
+
+        #desenhar o corno do jogador
+        Settings.screen.blit(self.image, self.rect)
