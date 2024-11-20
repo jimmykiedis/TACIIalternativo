@@ -28,7 +28,8 @@ while rodando:
 
     tela.blit(cenarioExterior, (0,0))
     tela.blit(cenarioInterior, (0,0))
-    tela.blit(player, (200, 150))
+    
+    player.update()
 
     for evento in pygame.event.get():                   #fechando o jogo
         if evento.type == pygame.QUIT:
