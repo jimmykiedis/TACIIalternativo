@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from .Settings import *
-from .Sprites import *
+from .SpritesCutter import *
 from .Player import *
 from .World import *
 
@@ -26,6 +26,7 @@ class NaughtCats:
                         rodando = False
             
             world.draw()
+            starGroup.draw(settings.screen)
             player.update()
             #world.draw_grid()
             

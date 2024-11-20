@@ -1,5 +1,4 @@
 import pygame
-from .Sprites import *
 
 WIDTH = 1000
 HEIGHT = 1000
@@ -25,11 +24,11 @@ class Settings:
         self.cenarioInterior = pygame.image.load ('resources/image/projetoInterior.png')
         self.cenarioExterior = pygame.image.load ('resources/image/projetoExterior.png')
         sheetJogador = pygame.image.load('resources/image/projetoPlayer.png')
-        self.jogadorSprite = cortarSprite(sheetJogador)
+        #self.jogadorSprite = cortarSprite(sheetJogador)
         sheetPlataformas = pygame.image.load('resources/image/projetoPlataformas.png')
-        self.plataformas = cortarSprite(sheetPlataformas)
+        #self.plataformas = cortarSprite(sheetPlataformas)
         sheetObjetos = pygame.image.load('resources/image/projetoObjetos.png')
-        self.Obejtos = cortarSprite(sheetObjetos)
+        #self.Objetos = cortarSprite(sheetObjetos)
 
 
 settings = Settings()
