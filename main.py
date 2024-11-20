@@ -1,7 +1,7 @@
 import pygame
 from .resources.assets.Settings import *
 from pygame.locals import *
-from resources.assets import player, Sprites, World
+from resources.assets import Player, Sprites, World
 
 cenarioInterior = pygame.image.load ('resources/image/projetoInterior.png')
 cenarioExterior = pygame.image.load ('resources/image/projetoExterior.png')
@@ -13,13 +13,15 @@ jogadorSprite = Sprites.cortarSprite(sheetJogador)
 plataformas = Sprites.cortarSprite(sheetPlataformas)
 Obejtos = Sprites.cortarSprite(sheetObjetos)
 
+
+
 rodando = True
 while rodando:
 
-    Settings.screen.blit(cenarioExterior, (0,0))
-    Settings.screen.blit(cenarioInterior, (0,0))
+    settings.screen.blit(cenarioExterior, (0,0))
+    settings.screen.blit(cenarioInterior, (0,0))
     
-    player.update()
+    Player.update()
     World.draw()
 
     for evento in pygame.event.get():                   #fechando o jogo
@@ -30,7 +32,7 @@ while rodando:
                 rodando = False
     
 
-    player.teclas()
+    Player.teclas()
     pygame.display.flip()
 
 

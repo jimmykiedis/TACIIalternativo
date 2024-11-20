@@ -10,6 +10,7 @@ class Player():
         self.rect.x = x
         self.rect.y = y
         self.vel_y = 0
+        self.jumped = False
 
     def update(self):                               
         
@@ -31,9 +32,12 @@ class Player():
         if keys[pygame.K_DOWN] or keys[pygame.K_s]:
             print("Olhando para baixo")
 
-        if keys[pygame.K_SPACE]:
+        if keys[pygame.K_SPACE] and self.jumped == False:
             print("Pulando")
             self.vel_y =-15
+            self.jumped = True
+        if keys[pygame.K_SPACE] == False:
+            self.jumped = False
 
         if keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]:
             print("Correndo")
@@ -43,7 +47,8 @@ class Player():
 
         #criando a gravidade
         self.vel_y += 1
-        
+        if self.vel_y > 10:
+            self.vel_y = 10
         dy += self.vel_y
 
         #checar se o corno colidiu
@@ -52,6 +57,9 @@ class Player():
         self.rect.x += dx
         self.rect.y += dy
 
+        if self. rect.bottom > settings.HEIGHT:
+            self.rect.bottom = settings.HEIGHT
+            dy = 0
 
         #desenhar o corno do jogador
         Settings.screen.blit(self.image, self.rect)

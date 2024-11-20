@@ -1,4 +1,5 @@
 import pygame
+from .World import *
 
 WIDTH = 1000
 HEIGHT = 1000
