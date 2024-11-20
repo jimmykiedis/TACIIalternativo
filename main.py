@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from resources.assets import controles, sprites
+from resources.assets import player, sprites
 
 pygame.init()
 
@@ -21,14 +21,14 @@ jogadorSprite = sprites.cortarSprite(sheetJogador)
 plataformas = sprites.cortarSprite(sheetPlataformas)
 Obejtos = sprites.cortarSprite(sheetObjetos)
 
-jogador = jogadorSprite[5][0]
+player = player(100, alturaTela - 130)
 
 rodando = True
 while rodando:
 
     tela.blit(cenarioExterior, (0,0))
     tela.blit(cenarioInterior, (0,0))
-    tela.blit(jogador, (200, 150))
+    tela.blit(player, (200, 150))
 
     for evento in pygame.event.get():                   #fechando o jogo
         if evento.type == pygame.QUIT:
@@ -38,7 +38,7 @@ while rodando:
                 rodando = False
     
 
-    controles.teclas()
+    player.teclas()
     clock.tick(50)
     pygame.display.flip()
 
