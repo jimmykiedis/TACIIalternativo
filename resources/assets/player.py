@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from Settings import *
+from .Settings import *
 
 class Player():
     def __init__(self, x, y) :
@@ -62,4 +62,4 @@ class Player():
             dy = 0
 
         #desenhar o corno do jogador
-        Settings.screen.blit(self.image, self.rect)
+        settings.screen.blit(self.image, self.rect)
