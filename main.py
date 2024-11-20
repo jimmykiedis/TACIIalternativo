@@ -5,7 +5,7 @@ from resources.assets import controles, sprites
 pygame.init()
 
 larguraTela = 1000
-alturaTela = 640
+alturaTela = 1000
 
 tela = pygame.display.set_mode((larguraTela, alturaTela))
 pygame.display.set_caption('Naughty Cat 2.2')
