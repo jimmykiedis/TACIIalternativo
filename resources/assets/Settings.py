@@ -3,6 +3,10 @@ import pygame
 WIDTH = 1000
 HEIGHT = 1000
 
+# Cores
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
 class Settings:
     def setup(self):
         pygame.init()
@@ -23,6 +27,8 @@ class Settings:
     def load_images(self):
         self.cenarioInterior = pygame.image.load ('resources/image/projetoInterior.png')
         self.cenarioExterior = pygame.image.load ('resources/image/projetoExterior.png')
+        background_image = pygame.image.load("resources/image/grass.png")  # Substitua pelo caminho da sua imagem
+        self.background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
         sheetJogador = pygame.image.load('resources/image/projetoPlayer.png')
         #self.jogadorSprite = cortarSprite(sheetJogador)
         sheetPlataformas = pygame.image.load('resources/image/projetoPlataformas.png')

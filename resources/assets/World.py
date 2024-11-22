@@ -37,7 +37,7 @@ class World():
 				#cria os eletrodomésticos; nesse caso a estrela
 				if tile == 3:
 					star = Edomestic(col_count * TILE_SIZE, row_count * TILE_SIZE + 30)
-					img = pygame.transform.scale(dirt_img, (TILE_SIZE, TILE_SIZE))
+					#img = pygame.transform.scale(dirt_img, (TILE_SIZE, TILE_SIZE))
 					starGroup.add(star)
 
 				col_count += 1
@@ -69,56 +69,6 @@ class Edomestic(pygame.sprite.Sprite):
 		if abs(self.move_counter) > 50:
 			self.move_direction *= -1
 			self.move_counter *= -1
-
-class Timer:
-    def __init__(self, duration, font_size=36, position=(10, 10), color=(255, 255, 255)):
-        """
-        Inicializa o timer.
-        :param duration: Duração do timer em segundos.
-        :param font_size: Tamanho da fonte para exibição do tempo.
-        :param position: Posição do texto na tela (x, y).
-        :param color: Cor do texto no formato RGB.
-        """
-        self.duration = duration
-        self.remaining_time = duration
-        self.font = pygame.font.Font(None, font_size)
-        self.position = position
-        self.color = color
-        self.start_ticks = pygame.time.get_ticks()
-        self.running = True
-
-    def update(self):
-        """
-        Atualiza o tempo restante do timer.
-        """
-        if self.running:
-            elapsed_time = (pygame.time.get_ticks() - self.start_ticks) // 1000
-            self.remaining_time = max(0, self.duration - elapsed_time)
-            if self.remaining_time <= 0:
-                self.running = False
-
-    def draw(self, screen):
-        """
-        Desenha o timer na tela.
-        :param screen: A superfície do Pygame onde o timer será renderizado.
-        """
-        timer_text = self.font.render(f"Tempo: {self.remaining_time}s", True, self.color)
-        screen.blit(timer_text, self.position)
-
-    def reset(self):
-        """
-        Reinicia o timer para a duração original.
-        """
-        self.start_ticks = pygame.time.get_ticks()
-        self.remaining_time = self.duration
-        self.running = True
-
-    def is_finished(self):
-        """
-        Verifica se o timer chegou a zero.
-        :return: True se o tempo acabou, False caso contrário.
-        """
-        return not self.running
 			
 
 world_data = [
@@ -131,14 +81,14 @@ world_data = [
 [1, 7, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
 [1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 7, 0, 0, 0, 0, 1], 
-[1, 0, 2, 0, 0, 7, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
+[1, 0, 2, 3, 0, 7, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
 [1, 0, 0, 2, 0, 0, 4, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0, 0, 1], 
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 1], 
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 7, 0, 0, 0, 0, 2, 0, 1], 
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 0, 2, 2, 2, 2, 2, 1], 
-[1, 0, 0, 0, 0, 0, 2, 2, 2, 6, 6, 6, 6, 6, 1, 1, 1, 1, 1, 1], 
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 7, 0, 0, 0, 0, 0, 2, 1], 
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 1], 
+[1, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 2, 2, 2, 2, 2, 1], 
+[1, 0, 0, 0, 0, 0, 2, 0, 0, 6, 6, 6, 6, 6, 1, 1, 1, 1, 1, 1], 
 [1, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
 [1, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
 [1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
