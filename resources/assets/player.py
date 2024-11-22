@@ -13,7 +13,7 @@ class Player():
 
         self.load_sprite_images()
         self.image = self.images_player_right[self.index]
-        self.player_rect = self.image.get_rect()
+        self.player_rect = self.image.get_rect()            #todos os .player_rect devem ser mudados para apenas .rect
         self.player_rect.x = x
         self.player_rect.y = y
         self.width = self.image.get_width()
@@ -117,3 +117,8 @@ class Player():
                 elif self.vel_y >= 0:
                     self.dy = tile[1].top - self.player_rect.bottom
                     self.vel_y = 0
+
+        '''#chegando se o corno pegou a estrela
+        if pygame.sprite.spritecollide(self, starGroup, False):
+            score += 1
+            print(score)'''

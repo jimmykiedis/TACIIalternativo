@@ -11,6 +11,7 @@ class NaughtCats:
         settings.setup()
 
         player = Player(100, HEIGHT - 115)
+        timer = Timer(10)  # Timer de 60 segundos
 
         rodando = True
         while rodando:
@@ -27,9 +28,19 @@ class NaughtCats:
             
             world.draw()
             starGroup.draw(settings.screen)
+            starGroup.update()
             player.update()
             #world.draw_grid()
             
+            # Atualizar e desenhar o timer
+            timer.update()
+            timer.draw(settings.screen)
+
+            # Finalizar o jogo quando o tempo acaba
+            if timer.is_finished():
+                print("O tempo acabou!")
+                #rodando = False
+
             settings.clock.tick(50)
             pygame.display.flip()
 
