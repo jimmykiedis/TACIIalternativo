@@ -23,6 +23,7 @@ class Settings:
         self.font = pygame.font.Font(None, 40)
 
         self.load_images()
+        self.load_font()
 
     def load_images(self):
         self.cenarioInterior = pygame.image.load ('resources/image/projetoInterior.png')
@@ -35,6 +36,15 @@ class Settings:
         #self.plataformas = cortarSprite(sheetPlataformas)
         sheetObjetos = pygame.image.load('resources/image/projetoObjetos.png')
         #self.Objetos = cortarSprite(sheetObjetos)
+
+    def load_font(self):
+                # Fonte personalizada ou padrão
+        try:
+            self.button_font = pygame.font.Font("resources/assets/font/PressStart2P-Regular.ttf", 20)  # Fonte pixelada
+            self.title_font = pygame.font.Font("resources/assets/font/PressStart2P-Regular.ttf", 40)
+        except FileNotFoundError:
+            self.button_font = pygame.font.Font(None, 40)  # Fonte padrão do sistema
+            self.title_font = pygame.font.Font(None, 60)
 
 
 settings = Settings()

@@ -48,18 +48,6 @@ class NaughtCats:
             pygame.display.flip()
 
     def initialScreen(self):
-        # Carregar imagem de fundo
-        background_image = pygame.image.load("resources/image/grass.png")  # Substitua pelo caminho da sua imagem
-        background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
-
-        # Fonte personalizada ou padrão
-        try:
-            button_font = pygame.font.Font("resources/assets/font/PressStart2P-Regular.ttf", 20)  # Fonte pixelada
-            title_font = pygame.font.Font("resources/assets/font/PressStart2P-Regular.ttf", 40)
-        except FileNotFoundError:
-            button_font = pygame.font.Font(None, 40)  # Fonte padrão do sistema
-            title_font = pygame.font.Font(None, 60)
-
         # Botões com maior largura e espaçamento
         BUTTON_WIDTH = 300
         BUTTON_HEIGHT = 50
@@ -127,25 +115,25 @@ class NaughtCats:
                                 current_state = STATE_MAIN_MENU
 
             # Desenhar o fundo
-            settings.screen.blit(background_image, (0, 0))
-            
+            settings.screen.blit(settings.background_image, (0, 0))
+
             if current_state == STATE_MAIN_MENU:
                 # Mensagem de "Bem Vindo"
-                draw_text("Bem-vindo ao Naught Cats", title_font, WHITE, settings.screen, WIDTH // 2, 150)
+                draw_text("Bem-vindo ao Naught Cats", settings.title_font, WHITE, settings.screen, WIDTH // 2, 150)
 
                 # Desenhar botões do menu principal
                 for text, rect in main_menu_buttons.items():
                     draw_rounded_rect(settings.screen, WHITE, rect, BUTTON_RADIUS, BLACK, 2)  # Botão com borda preta
-                    draw_text(text, button_font, BLACK, settings.screen, rect.centerx, rect.centery)
+                    draw_text(text, settings.button_font, BLACK, settings.screen, rect.centerx, rect.centery)
 
             elif current_state == STATE_SINGLE_PLAYER_MENU:
                 # Mensagem "Single Player"
-                draw_text("Single Player", title_font, WHITE, settings.screen, WIDTH // 2, 150)
+                draw_text("Single Player", settings.title_font, WHITE, settings.screen, WIDTH // 2, 150)
 
                 # Desenhar botões do menu Single Player
                 for text, rect in single_player_buttons.items():
                     draw_rounded_rect(settings.screen, WHITE, rect, BUTTON_RADIUS, BLACK, 2)
-                    draw_text(text, button_font, BLACK, settings.screen, rect.centerx, rect.centery)
+                    draw_text(text, settings.button_font, BLACK, settings.screen, rect.centerx, rect.centery)
 
             # Atualizar a tela
             pygame.display.flip()
