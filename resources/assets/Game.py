@@ -49,20 +49,19 @@ class NaughtCats:
 
     def initialScreen(self):
 
-        #novos botões
 
-        # Carregar imagens dos botões do menu principal
+        # Carregar os novos botões de imagem do menu principal
         button_single_player = ImageButton('resources/image/singleplayer.png', WIDTH // 2 - 150, 350)
         button_multiplayer = ImageButton('resources/image/multiPlayer.png', WIDTH // 2 - 150, 450)
         button_editor = ImageButton('resources/image/editor.png', WIDTH // 2 - 150, 550)
         button_quit = ImageButton('resources/image/sair.png', WIDTH // 2 - 150, 650)
 
-        # Carregar imagens dos botões do menu Single Player
+        # Carregar os novos botões de imagem do Single Player
         button_new_game = ImageButton('resources/image/novoJogo.png', WIDTH // 2 - 150, 350)
         button_continue = ImageButton('resources/image/continuar.png', WIDTH // 2 - 150, 450)
         button_back = ImageButton('resources/image/voltar.png', 20, 20)  # Botão de voltar no canto superior esquerdo
 
-        # Carregar botão de pause (esse deve ficar no meio da tela durante o jogo)
+        # pause (esse deve ficar no meio da tela durante o jogo)
         button_pause = ImageButton('resources/image/pause.png', 20, 20)
 
         # Estados do jogo
