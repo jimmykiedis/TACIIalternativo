@@ -19,7 +19,7 @@ class NaughtCats:
         rodando = True
         while rodando:
             
-            settings.screen.blit(settings.cenarioExterior, (0,0))
+            #settings.screen.blit(settings.cenarioExterior, (0,0))
             settings.screen.blit(settings.cenarioInterior, (0,0))
 
             for evento in pygame.event.get():                   #fechando o jogo
@@ -48,17 +48,34 @@ class NaughtCats:
             pygame.display.flip()
 
     def initialScreen(self):
+
+        #novos botões
+
+        # Carregar imagens dos botões do menu principal
+        button_single_player = ImageButton('resources/image/singleplayer.png', WIDTH // 2 - 150, 350)
+        button_multiplayer = ImageButton('resources/image/multiPlayer.png', WIDTH // 2 - 150, 450)
+        button_editor = ImageButton('resources/image/editor.png', WIDTH // 2 - 150, 550)
+        button_quit = ImageButton('resources/image/sair.png', WIDTH // 2 - 150, 650)
+
+        # Carregar imagens dos botões do menu Single Player
+        button_new_game = ImageButton('resources/image/novoJogo.png', WIDTH // 2 - 150, 350)
+        button_continue = ImageButton('resources/image/continuar.png', WIDTH // 2 - 150, 450)
+        button_back = ImageButton('resources/image/voltar.png', 20, 20)  # Botão de voltar no canto superior esquerdo
+
+        # Carregar botão de pause (esse deve ficar no meio da tela durante o jogo)
+        button_pause = ImageButton('resources/image/pause.png', 20, 20)
+
+        # Estados do jogo
+        STATE_MAIN_MENU = "main_menu"
+        STATE_SINGLE_PLAYER_MENU = "single_player_menu"
+        current_state = STATE_MAIN_MENU
+
         # Botões com maior largura e espaçamento
         BUTTON_WIDTH = 300
         BUTTON_HEIGHT = 50
         BUTTON_SPACING = 60
         BUTTON_RADIUS = 20
         button_y_start = 350
-
-        # Estados do jogo
-        STATE_MAIN_MENU = "main_menu"
-        STATE_SINGLE_PLAYER_MENU = "single_player_menu"
-        current_state = STATE_MAIN_MENU
 
         main_menu_buttons = {
             "Single Player": pygame.Rect(WIDTH / 2 - BUTTON_WIDTH / 2, button_y_start, BUTTON_WIDTH, BUTTON_HEIGHT),

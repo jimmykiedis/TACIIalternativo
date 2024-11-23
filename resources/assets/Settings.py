@@ -46,5 +46,15 @@ class Settings:
             self.button_font = pygame.font.Font(None, 40)  # Fonte padrão do sistema
             self.title_font = pygame.font.Font(None, 60)
 
+class ImageButton:
+    def __init__(self, image_path, x, y):
+        self.image = pygame.image.load(image_path).convert_alpha()  # Carregar a imagem com transparência
+        self.rect = self.image.get_rect(topleft=(x, y))  # Definir posição inicial do botão
+
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)  # Desenhar a imagem na tela
+
+    def is_clicked(self, mouse_pos):
+        return self.rect.collidepoint(mouse_pos)  # Verificar se o botão foi clicado
 
 settings = Settings()
