@@ -1,7 +1,8 @@
 import pygame
+from .Settings import *
 
 class Timer:
-    def __init__(self, duration, font_size=36, position=(10, 10), color=(255, 255, 255)):
+    def __init__(self, duration, position=(10, 10), color=(255, 255, 255)):
         """
         Inicializa o timer.
         :param duration: Duração do timer em segundos.
@@ -11,7 +12,7 @@ class Timer:
         """
         self.duration = duration
         self.remaining_time = duration
-        self.font = pygame.font.Font(None, font_size)
+        self.font = settings.button_font
         self.position = position
         self.color = color
         self.start_ticks = pygame.time.get_ticks()
@@ -26,6 +27,7 @@ class Timer:
             self.remaining_time = max(0, self.duration - elapsed_time)
             if self.remaining_time <= 0:
                 self.running = False
+        return self.remaining_time
 
     def draw(self, screen):
         """

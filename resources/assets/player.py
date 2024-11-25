@@ -2,11 +2,15 @@ import pygame
 from pygame.locals import *
 from .Settings import *
 from .World import *
+from .Game import *
 
 SCORE_COUTER = 0
 
 class Player():
     def __init__(self, x, y):
+        self.reset(x, y)
+
+    def reset(self, x, y):
         # listas com as imagens sprites
         self.images_player_right = []
         self.images_player_left = []
@@ -23,22 +27,24 @@ class Player():
         self.vel_y = 0
         self.jumped = False
         self.direction = 0
+        self.in_air = True
+
 
     #desenhar o corno do jogador
-    def update(self, GAME_OVER, TRAP_KILL, POINTS): 
+    def update(self, GAME_STATE, TRAP_KILL, POINTS): 
         self.dx = 0
         self.dy = 0  
-        if GAME_OVER == False:
+        if GAME_STATE == 0:
             self.controls()
             self.walk_animation()
             self.gravity()
-            TRAP_KILL, POINTS = self.check_colision(TRAP_KILL, POINTS)
+            TRAP_KILL, POINTS, GAME_STATE = self.check_colision(TRAP_KILL, POINTS, GAME_STATE)
             self.coordinates()
         if TRAP_KILL == True:
-            GAME_OVER = True
+            GAME_STATE = -1
             self.image = settings.dead_image
         settings.screen.blit(self.image, self.player_rect)
-        return GAME_OVER, POINTS
+        return GAME_STATE, POINTS
 
     def controls(self):
         keys = pygame.key.get_pressed()
@@ -62,15 +68,11 @@ class Player():
             print("Olhando para cima")
         if keys[pygame.K_DOWN] or keys[pygame.K_s]:
             print("Olhando para baixo")
-        if keys[pygame.K_SPACE] and self.jumped == False:
+        if keys[pygame.K_SPACE] and self.jumped == False and self.in_air == False:
             self.vel_y = -15
             self.jumped = True  
         if keys[pygame.K_SPACE] == False:
             self.jumped = False
-        if keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]:
-            print("Correndo")
-        if keys[pygame.K_LCTRL] or keys[pygame.K_LCTRL]:
-            print("Abaixando")
             
     def load_sprite_images(self):
         for num in range(1, 4):
@@ -107,8 +109,9 @@ class Player():
             self.player_rect.bottom = HEIGHT
             self.dy = 0
 
-    def check_colision(self, TRAP_KILL, POINTS):
+    def check_colision(self, TRAP_KILL, POINTS, GAME_STATE):
         #checar se o corno colidiu
+        self.in_air = True
         for tile in world.tile_list:
             #clecar se o corno colidiu no x
             if tile[1].colliderect(self.player_rect.x + self.dx, self.player_rect.y, self.width, self.height):
@@ -123,13 +126,25 @@ class Player():
                 elif self.vel_y >= 0:
                     self.dy = tile[1].top - self.player_rect.bottom
                     self.vel_y = 0 
+                    self.in_air = False
             
         for trap in trapGroup:
                 if self.player_rect.colliderect(trap.rect):
                     TRAP_KILL = True
+                    trapGroup.remove(trap)
+
+        for fish in fishGroup:
+            if self.player_rect.colliderect(fish.rect):
+                POINTS += 3
+                fishGroup.remove(fish)
+
+        for door in doorGroup:
+            if self.player_rect.colliderect(door.rect) and POINTS>=12:
+                GAME_STATE = 1
+
         for star in starGroup:
-                if self.player_rect.colliderect(star.rect):
-                    POINTS += 1
-                    starGroup.remove(star)
+            if self.player_rect.colliderect(star.rect):
+                POINTS += 1
+                starGroup.remove(star)
                     
-        return TRAP_KILL, POINTS
+        return TRAP_KILL, POINTS, GAME_STATE

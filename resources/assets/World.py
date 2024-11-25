@@ -1,4 +1,5 @@
 import pygame
+import pickle
 from .Settings import *
 from .Objects import *
 
@@ -9,8 +10,9 @@ class World():
 		self.tile_list = []
 
 		#load images
-		dirt_img = pygame.image.load('resources/image/dirt.png')
-		grass_img = pygame.image.load('resources/image/grass.png')
+		piso_img = pygame.image.load('resources/image/piso.png')
+		bloco_img = pygame.image.load('resources/image/bloco.png')
+		madeira_img = pygame.image.load('resources/image/madeira.png')
 
 		row_count = 0
 		for row in data:
@@ -19,7 +21,7 @@ class World():
 
 				#cria a terra
 				if tile == 1:
-					img = pygame.transform.scale(dirt_img, (TILE_SIZE, TILE_SIZE))
+					img = pygame.transform.scale(piso_img, (TILE_SIZE, TILE_SIZE))
 					img_rect = img.get_rect()
 					img_rect.x = col_count * TILE_SIZE
 					img_rect.y = row_count * TILE_SIZE
@@ -28,7 +30,7 @@ class World():
 				
 				#cria a grama
 				if tile == 2:
-					img = pygame.transform.scale(grass_img, (TILE_SIZE, TILE_SIZE))
+					img = pygame.transform.scale(bloco_img, (TILE_SIZE, TILE_SIZE))
 					img_rect = img.get_rect()
 					img_rect.x = col_count * TILE_SIZE
 					img_rect.y = row_count * TILE_SIZE
@@ -38,14 +40,28 @@ class World():
 				#cria os eletrodomésticos; nesse caso a estrela
 				if tile == 3:
 					stars = Star(col_count * TILE_SIZE, row_count * TILE_SIZE + 30)
-					#img = pygame.transform.scale(dirt_img, (TILE_SIZE, TILE_SIZE))
 					starGroup.add(stars)
 				
 				if tile == 4:
-					traps = Trap(col_count * TILE_SIZE, row_count * TILE_SIZE + 30)
+					traps = Trap(col_count * TILE_SIZE, row_count * TILE_SIZE + 10)
 					trapGroup.add(traps)
-
+				
+				if tile == 5:
+					door = Door(col_count * TILE_SIZE, row_count * TILE_SIZE - 30)
+					doorGroup.add(door)
+				
+				if tile == 6:
+					fish = Fish(col_count * TILE_SIZE, row_count * TILE_SIZE)
+					fishGroup.add(fish)
 				col_count += 1
+
+				if tile == 7:
+					img = pygame.transform.scale(madeira_img, (TILE_SIZE, TILE_SIZE))
+					img_rect = img.get_rect()
+					img_rect.x = col_count * TILE_SIZE
+					img_rect.y = row_count * TILE_SIZE
+					tile = (img, img_rect)
+					self.tile_list.append(tile)
 			row_count += 1
 
 	def draw(self):
@@ -61,25 +77,30 @@ class World():
 world_data = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 1],
-[1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 1],
-[1, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 1],
-[1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1],
-[1, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 2, 2, 0, 1],
-[1, 0, 0, 0, 0, 2, 2, 0, 0, 2, 2, 0, 0, 0, 2, 2, 2, 0, 0, 2, 2, 2, 0, 1],
+[1, 5, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 1],
+[1, 2, 2, 6, 0, 0, 0, 0, 2, 2, 2, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1],
+[1, 2, 2, 2, 0, 0, 0, 2, 2, 2, 2, 0, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 1],
+[1, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 0, 1],
+[1, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1],
+[1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 1],
+[1, 0, 0, 4, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 1],
+[1, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 1],
+[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 7, 7, 7, 1],
+[1, 0, 0, 0, 0, 2, 0, 0, 0, 2, 2, 2, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 1],
+[1, 0, 3, 0, 0, 0, 0, 0, 2, 7, 7, 0, 0, 0, 7, 7, 7, 2, 0, 0, 0, 0, 0, 1],
+[1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 1],
+[1, 7, 0, 0, 0, 3, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 1],
+[1, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 2, 2, 2, 1],
+[1, 0, 0, 0, 0, 2, 2, 0, 0, 2, 2, 4, 0, 0, 1, 1, 1, 4, 4, 2, 1, 1, 1, 1],
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ]
-
+#with open('level1.pkl', 'wb') as f:
+#    pickle.dump(world_data, f)
 trapGroup = pygame.sprite.Group()
 starGroup = pygame.sprite.Group()
+fishGroup = pygame.sprite.Group()
+doorGroup = pygame.sprite.Group()
+#pickle_in = open('resouces/assets/level/level1.pkl', 'rb')
+#world_data = pickle.load(pickle_in)
 world = World(world_data)

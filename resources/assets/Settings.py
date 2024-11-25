@@ -38,12 +38,6 @@ class Settings:
         self.background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
         cat_dead = pygame.image.load('resources/image/catDead.png')
         self.dead_image = pygame.transform.scale(cat_dead, (80, 80))
-        sheetJogador = pygame.image.load('resources/image/projetoPlayer.png')
-        #self.jogadorSprite = cortarSprite(sheetJogador)
-        sheetPlataformas = pygame.image.load('resources/image/projetoPlataformas.png')
-        #self.plataformas = cortarSprite(sheetPlataformas)
-        sheetObjetos = pygame.image.load('resources/image/projetoObjetos.png')
-        #self.Objetos = cortarSprite(sheetObjetos)
 
     def load_font(self):
                 # Fonte personalizada ou padrão
