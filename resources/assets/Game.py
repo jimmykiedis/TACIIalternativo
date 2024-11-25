@@ -9,10 +9,12 @@ class NaughtCats:
 
     def play(self):
         settings.setup()    
-        self.initialScreen()
+        NaughtCats.initialScreen()
 
     def startGame():
         GAME_OVER = False
+        TRAP_KILL = False
+        cont_game_over = 0
         player = Player(100, HEIGHT - 115)
         timer = Timer(15, 30, (20, 20), (255, 255, 255))  # Timer de 60 segundos
 
@@ -33,13 +35,20 @@ class NaughtCats:
 
             if GAME_OVER == False:
                 trapGroup.draw(settings.screen)
+                timer.update()
             starGroup.update()
             starGroup.draw(settings.screen)
-            GAME_OVER = player.update(GAME_OVER)
+            GAME_OVER = player.update(GAME_OVER, TRAP_KILL)
             #world.draw_grid()
+
+            if GAME_OVER == True:
+                cont_game_over += 1
+                if cont_game_over == 120:
+                    NaughtCats.gameOverScreen()
+                    cont_game_over = 0
+                
             
-            # Atualizar e desenhar o timer
-            timer.update()
+            # desenhar o timer
             timer.draw(settings.screen)
 
             # Finalizar o jogo quando o tempo acaba
@@ -50,7 +59,7 @@ class NaughtCats:
             settings.clock.tick(50)
             pygame.display.flip()
 
-    def initialScreen(self):
+    def initialScreen():
         # Estados do jogo
         STATE_MAIN_MENU = "main_menu"
         STATE_SINGLE_PLAYER_MENU = "single_player_menu"
@@ -67,7 +76,7 @@ class NaughtCats:
             "SINGLE PLAYER": pygame.Rect(WIDTH / 2 - BUTTON_WIDTH / 2, button_y_start, BUTTON_WIDTH, BUTTON_HEIGHT),
             "MULTIPLAYER": pygame.Rect(WIDTH / 2 - BUTTON_WIDTH / 2, button_y_start + BUTTON_HEIGHT + BUTTON_SPACING, BUTTON_WIDTH, BUTTON_HEIGHT),
             "EDITOR": pygame.Rect(WIDTH / 2 - BUTTON_WIDTH / 2, button_y_start + 2 * (BUTTON_HEIGHT + BUTTON_SPACING), BUTTON_WIDTH, BUTTON_HEIGHT),
-            "QUIT": pygame.Rect(WIDTH / 2 - BUTTON_WIDTH / 2, button_y_start + 3 * (BUTTON_HEIGHT + BUTTON_SPACING), BUTTON_WIDTH, BUTTON_HEIGHT),
+            "FECHAR": pygame.Rect(WIDTH / 2 - BUTTON_WIDTH / 2, button_y_start + 3 * (BUTTON_HEIGHT + BUTTON_SPACING), BUTTON_WIDTH, BUTTON_HEIGHT),
         }
 
         # Botões do menu Single Player
@@ -105,7 +114,7 @@ class NaughtCats:
                                 print("Iniciar Multiplayer")
                             elif main_menu_buttons["EDITOR"].collidepoint(mouse_pos):
                                 print("Abrir Editor")
-                            elif main_menu_buttons["QUIT"].collidepoint(mouse_pos):
+                            elif main_menu_buttons["FECHAR"].collidepoint(mouse_pos):
                                 running = False
                         elif current_state == STATE_SINGLE_PLAYER_MENU:
                             if single_player_buttons["NOVO JOGO"].collidepoint(mouse_pos):
@@ -123,7 +132,7 @@ class NaughtCats:
             if current_state == STATE_MAIN_MENU:
                 # Desenhar botões do menu principal
                 for text, rect in main_menu_buttons.items():
-                    draw_rounded_rect(settings.screen, DARK_BROWN, rect, BUTTON_RADIUS, LIGHT_BROWN, 4)  # Botão com borda preta
+                    draw_rounded_rect(settings.screen, DARK_BROWN, rect, BUTTON_RADIUS, LIGHT_BROWN, 4)
                     draw_text(text, settings.button_font, LIGHT_BROWN, settings.screen, rect.centerx, rect.centery)
 
             elif current_state == STATE_SINGLE_PLAYER_MENU:
@@ -134,5 +143,57 @@ class NaughtCats:
 
             # Atualizar a tela
             pygame.display.flip()
+    
+    def gameOverScreen():
+        BUTTON_WIDTH = 300
+        BUTTON_HEIGHT = 50
+        BUTTON_SPACING = 60
+        BUTTON_RADIUS = 10
+
+        STATE_GAME_OVER = "game_over"
+        current_state = STATE_GAME_OVER
+
+        game_over_buttons = {
+            "REINICIAR": pygame.Rect(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 2 - BUTTON_HEIGHT - BUTTON_SPACING, BUTTON_WIDTH, BUTTON_HEIGHT),
+            "FECHAR": pygame.Rect(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 2 + BUTTON_SPACING, BUTTON_WIDTH, BUTTON_HEIGHT)
+        }
+
+        # Função para desenhar retângulos com bordas arredondadas
+        def draw_rounded_rect(surface, color, rect, radius, border_color=None, border_width=0):
+            pygame.draw.rect(surface, color, rect, border_radius=radius)
+            if border_color and border_width > 0:
+                pygame.draw.rect(surface, border_color, rect, border_width, border_radius=radius)
+        
+        def draw_text(text, font, color, surface, x, y):
+            text_obj = font.render(text, True, color)
+            text_rect = text_obj.get_rect(center=(x, y))
+            surface.blit(text_obj, text_rect)
+
+        
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:  # Clique esquerdo
+                        mouse_pos = pygame.mouse.get_pos()
+                        if current_state == STATE_GAME_OVER:
+                            if game_over_buttons["REINICIAR"].collidepoint(mouse_pos):
+                                NaughtCats.startGame()
+                            elif game_over_buttons["FECHAR"].collidepoint(mouse_pos):
+                                pygame.quit()
+
+            settings.screen.blit(settings.background_image, (0, 0))
+            
+            if current_state == STATE_GAME_OVER:
+                    # Desenhar botões da tela game over
+                    for text, rect in game_over_buttons.items():
+                        draw_rounded_rect(settings.screen, DARK_BROWN, rect, BUTTON_RADIUS, LIGHT_BROWN, 4)
+                        draw_text(text, settings.button_font, LIGHT_BROWN, settings.screen, rect.centerx, rect.centery)
+        
+            # Atualizar a tela
+            pygame.display.flip()
+
     
     pygame.quit()

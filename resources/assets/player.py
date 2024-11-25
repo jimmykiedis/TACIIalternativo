@@ -25,16 +25,17 @@ class Player():
         self.direction = 0
 
     #desenhar o corno do jogador
-    def update(self, GAME_OVER): 
+    def update(self, GAME_OVER, TRAP_KILL): 
         self.dx = 0
         self.dy = 0  
         if GAME_OVER == False:
             self.controls()
             self.walk_animation()
             self.gravity()
-            self.check_colision()
+            TRAP_KILL = self.check_colision(TRAP_KILL)
             self.coordinates()
-        if GAME_OVER == True:
+        if TRAP_KILL == True:
+            GAME_OVER = True
             self.image = settings.dead_image
         settings.screen.blit(self.image, self.player_rect)
         return GAME_OVER
@@ -106,7 +107,7 @@ class Player():
             self.player_rect.bottom = HEIGHT
             self.dy = 0
 
-    def check_colision(self):
+    def check_colision(self, TRAP_KILL):
         #checar se o corno colidiu
         for tile in world.tile_list:
             #clecar se o corno colidiu no x
@@ -122,3 +123,8 @@ class Player():
                 elif self.vel_y >= 0:
                     self.dy = tile[1].top - self.player_rect.bottom
                     self.vel_y = 0 
+            
+        for trap in trapGroup:
+                if self.player_rect.colliderect(trap.rect):
+                    TRAP_KILL = True
+        return TRAP_KILL

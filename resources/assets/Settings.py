@@ -10,6 +10,8 @@ BLACK = (0, 0, 0)
 LIGHT_BROWN = (206, 142, 143)
 DARK_BROWN = (147, 79, 56)
 
+TRAP_KILL = False
+
 class Settings:
     def setup(self):
         pygame.init()
