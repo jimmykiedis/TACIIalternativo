@@ -1,7 +1,6 @@
 import pygame
 from pygame.locals import *
 from .Settings import *
-from .SpritesCutter import *
 from .Player import *
 from .World import *
 from .Timer import *
@@ -9,10 +8,11 @@ from .Timer import *
 class NaughtCats:
 
     def play(self):
-        settings.setup()
+        settings.setup()    
         self.initialScreen()
 
     def startGame():
+        GAME_OVER = False
         player = Player(100, HEIGHT - 115)
         timer = Timer(15, 30, (20, 20), (255, 255, 255))  # Timer de 60 segundos
 
@@ -30,9 +30,12 @@ class NaughtCats:
                         rodando = False
             
             world.draw()
-            starGroup.draw(settings.screen)
+
+            if GAME_OVER == False:
+                trapGroup.draw(settings.screen)
             starGroup.update()
-            player.update()
+            starGroup.draw(settings.screen)
+            GAME_OVER = player.update(GAME_OVER)
             #world.draw_grid()
             
             # Atualizar e desenhar o timer
@@ -48,22 +51,6 @@ class NaughtCats:
             pygame.display.flip()
 
     def initialScreen(self):
-
-
-        '''# Carregar os novos botões de imagem do menu principal
-        button_single_player = ImageButton('resources/image/singleplayer.png', WIDTH // 2 - 150, 350)
-        button_multiplayer = ImageButton('resources/image/multiPlayer.png', WIDTH // 2 - 150, 450)
-        button_editor = ImageButton('resources/image/editor.png', WIDTH // 2 - 150, 550)
-        button_quit = ImageButton('resources/image/sair.png', WIDTH // 2 - 150, 650)
-
-        # Carregar os novos botões de imagem do Single Player
-        button_new_game = ImageButton('resources/image/novoJogo.png', WIDTH // 2 - 150, 350)
-        button_continue = ImageButton('resources/image/continuar.png', WIDTH // 2 - 150, 450)
-        button_back = ImageButton('resources/image/voltar.png', 20, 20)  # Botão de voltar no canto superior esquerdo
-
-        # pause (esse deve ficar no meio da tela durante o jogo)
-        button_pause = ImageButton('resources/image/pause.png', 20, 20)'''
-
         # Estados do jogo
         STATE_MAIN_MENU = "main_menu"
         STATE_SINGLE_PLAYER_MENU = "single_player_menu"

@@ -23,16 +23,19 @@ class Player():
         self.direction = 0
 
     #desenhar o corno do jogador
-    def update(self): 
+    def update(self, GAME_OVER): 
         self.dx = 0
-        self.dy = 0                        
-        self.controls()
-        self.walk_animation()
-        self.gravity()
-        self.check_colision()
-        self.coordinates()
-
+        self.dy = 0  
+        if GAME_OVER == False:
+            self.controls()
+            self.walk_animation()
+            self.gravity()
+            self.check_colision()
+            self.coordinates()
+        if GAME_OVER == True:
+            self.image = settings.dead_image
         settings.screen.blit(self.image, self.player_rect)
+        return GAME_OVER
 
     def controls(self):
         keys = pygame.key.get_pressed()
@@ -116,9 +119,4 @@ class Player():
                 #checar se estám a cima do piso ou seja caindo
                 elif self.vel_y >= 0:
                     self.dy = tile[1].top - self.player_rect.bottom
-                    self.vel_y = 0
-
-        '''#chegando se o corno pegou a estrela
-        if pygame.sprite.spritecollide(self, starGroup, False):
-            score += 1
-            print(score)'''
+                    self.vel_y = 0 

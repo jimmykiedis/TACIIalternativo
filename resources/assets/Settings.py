@@ -3,6 +3,7 @@ import pygame
 WIDTH = 1000
 HEIGHT = 1000
 
+
 # Cores
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -30,8 +31,10 @@ class Settings:
     def load_images(self):
         self.cenarioInterior = pygame.image.load ('resources/image/projetoInterior.png')
         self.cenarioExterior = pygame.image.load ('resources/image/projetoExterior.png')
-        background_image = pygame.image.load("resources/image/imageAbertura.png")
+        background_image = pygame.image.load('resources/image/imageAbertura.png')
         self.background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
+        cat_dead = pygame.image.load('resources/image/catDead.png')
+        self.dead_image = pygame.transform.scale(cat_dead, (80, 80))
         sheetJogador = pygame.image.load('resources/image/projetoPlayer.png')
         #self.jogadorSprite = cortarSprite(sheetJogador)
         sheetPlataformas = pygame.image.load('resources/image/projetoPlataformas.png')

@@ -1,5 +1,6 @@
 import pygame
 from .Settings import *
+from .Objects import *
 
 TILE_SIZE = 50
 
@@ -36,9 +37,13 @@ class World():
 
 				#cria os eletrodomésticos; nesse caso a estrela
 				if tile == 3:
-					star = Edomestic(col_count * TILE_SIZE, row_count * TILE_SIZE + 30)
+					stars = Star(col_count * TILE_SIZE, row_count * TILE_SIZE + 30)
 					#img = pygame.transform.scale(dirt_img, (TILE_SIZE, TILE_SIZE))
-					starGroup.add(star)
+					starGroup.add(stars)
+				
+				if tile == 4:
+					traps = Trap(col_count * TILE_SIZE, row_count * TILE_SIZE + 30)
+					trapGroup.add(traps)
 
 				col_count += 1
 			row_count += 1
@@ -51,8 +56,8 @@ class World():
 		for line in range(0, 20):
 			pygame.draw.line(settings.screen, (255, 255, 255), (0, line * TILE_SIZE), (WIDTH, line * TILE_SIZE))
 			pygame.draw.line(settings.screen, (255, 255, 255), (line * TILE_SIZE, 0), (line * TILE_SIZE, HEIGHT))
-			
-class Edomestic(pygame.sprite.Sprite):
+
+class Star(pygame.sprite.Sprite):
 	def __init__(self, x, y):
 		pygame.sprite.Sprite.__init__(self)
 		star_img = pygame.image.load('resources/image/estrela.png')
@@ -69,6 +74,16 @@ class Edomestic(pygame.sprite.Sprite):
 		if abs(self.move_counter) > 50:
 			self.move_direction *= -1
 			self.move_counter *= -1
+			
+
+class Trap(pygame.sprite.Sprite):
+	def __init__(self, x, y):
+		pygame.sprite.Sprite.__init__(self)
+		trap_img = pygame.image.load('resources/image/trap.png')
+		self.image = pygame.transform.scale(trap_img, (50, 50))
+		self.rect = self.image.get_rect()
+		self.rect.x = x
+		self.rect.y = y
 			
 
 world_data = [
@@ -94,6 +109,7 @@ world_data = [
 [1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
-starGroup = pygame.sprite.Group()
 
+trapGroup = pygame.sprite.Group()
+starGroup = pygame.sprite.Group()
 world = World(world_data)
