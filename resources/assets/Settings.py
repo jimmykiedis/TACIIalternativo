@@ -1,7 +1,7 @@
 import pygame
 
-WIDTH = 1000
-HEIGHT = 1000
+WIDTH = 1200
+HEIGHT = 950
 
 
 # Cores
@@ -31,7 +31,8 @@ class Settings:
         self.load_font()
 
     def load_images(self):
-        self.cenarioInterior = pygame.image.load ('resources/image/projetoInterior.png')
+        cenarioInterior = pygame.image.load ('resources/image/projetoInterior.png')
+        self.cenarioInterior = pygame.transform.scale(cenarioInterior, (WIDTH, HEIGHT))
         self.cenarioExterior = pygame.image.load ('resources/image/projetoExterior.png')
         background_image = pygame.image.load('resources/image/imageAbertura.png')
         self.background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))

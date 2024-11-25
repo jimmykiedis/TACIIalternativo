@@ -40,7 +40,7 @@ class NaughtCats:
             starGroup.update()
             starGroup.draw(settings.screen)
             GAME_OVER, POINTS = player.update(GAME_OVER, TRAP_KILL, POINTS)
-            #world.draw_grid()
+            world.draw_grid()
             print(POINTS)
 
             if GAME_OVER == True:
