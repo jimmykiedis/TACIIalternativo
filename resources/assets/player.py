@@ -3,6 +3,8 @@ from pygame.locals import *
 from .Settings import *
 from .World import *
 
+SCORE_COUTER = 0
+
 class Player():
     def __init__(self, x, y):
         # listas com as imagens sprites
