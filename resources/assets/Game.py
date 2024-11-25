@@ -14,6 +14,7 @@ class NaughtCats:
     def startGame():
         GAME_OVER = False
         TRAP_KILL = False
+        POINTS = 0
         cont_game_over = 0
         player = Player(100, HEIGHT - 115)
         timer = Timer(15, 30, (20, 20), (255, 255, 255))  # Timer de 60 segundos
@@ -38,8 +39,9 @@ class NaughtCats:
                 timer.update()
             starGroup.update()
             starGroup.draw(settings.screen)
-            GAME_OVER = player.update(GAME_OVER, TRAP_KILL)
+            GAME_OVER, POINTS = player.update(GAME_OVER, TRAP_KILL, POINTS)
             #world.draw_grid()
+            print(POINTS)
 
             if GAME_OVER == True:
                 cont_game_over += 1

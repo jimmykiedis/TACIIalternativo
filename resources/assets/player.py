@@ -23,20 +23,20 @@ class Player():
         self.direction = 0
 
     #desenhar o corno do jogador
-    def update(self, GAME_OVER, TRAP_KILL): 
+    def update(self, GAME_OVER, TRAP_KILL, POINTS): 
         self.dx = 0
         self.dy = 0  
         if GAME_OVER == False:
             self.controls()
             self.walk_animation()
             self.gravity()
-            TRAP_KILL = self.check_colision(TRAP_KILL)
+            TRAP_KILL, POINTS = self.check_colision(TRAP_KILL, POINTS)
             self.coordinates()
         if TRAP_KILL == True:
             GAME_OVER = True
             self.image = settings.dead_image
         settings.screen.blit(self.image, self.player_rect)
-        return GAME_OVER
+        return GAME_OVER, POINTS
 
     def controls(self):
         keys = pygame.key.get_pressed()
@@ -105,7 +105,7 @@ class Player():
             self.player_rect.bottom = HEIGHT
             self.dy = 0
 
-    def check_colision(self, TRAP_KILL):
+    def check_colision(self, TRAP_KILL, POINTS):
         #checar se o corno colidiu
         for tile in world.tile_list:
             #clecar se o corno colidiu no x
@@ -125,4 +125,9 @@ class Player():
         for trap in trapGroup:
                 if self.player_rect.colliderect(trap.rect):
                     TRAP_KILL = True
-        return TRAP_KILL
+        for star in starGroup:
+                if self.player_rect.colliderect(star.rect):
+                    POINTS += 1
+                    starGroup.remove(star)
+                    
+        return TRAP_KILL, POINTS
