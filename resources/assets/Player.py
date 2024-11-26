@@ -55,7 +55,7 @@ class Player():
             self.dx += 5
             self.counter += 1
             self.direction = 1
-        if keys[pygame.K_LEFT] == False and keys[pygame.K_RIGHT] == False:
+        if (keys[pygame.K_LEFT] or keys[pygame.K_a]) == False and (keys[pygame.K_RIGHT] or keys[pygame.K_d]) == False:
             self.counter = 0
             self.index = 0
             if self.direction == 1:
@@ -88,7 +88,6 @@ class Player():
 
     def walk_animation(self):
         walk_delay = 5
-        print(self.counter)
         if self.counter > walk_delay:
             self.counter = 0    
             self.index += 1
