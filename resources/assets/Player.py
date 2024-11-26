@@ -12,7 +12,6 @@ class Player():
         self.reset(x, y)
 
     def reset(self, x, y):
-        # listas com as imagens sprites
         self.images_player_right = []
         self.images_player_left = []
         self.index = 0
@@ -20,9 +19,9 @@ class Player():
 
         self.load_sprite_images()
         self.image = self.images_player_right[self.index]
-        self.player_rect = self.image.get_rect()            #todos os .player_rect devem ser mudados para apenas .rect
-        self.player_rect.x = x
-        self.player_rect.y = y
+        self.rect = self.image.get_rect()  # Mudança aqui
+        self.rect.x = x
+        self.rect.y = y
         self.width = self.image.get_width()
         self.height = self.image.get_height()
         self.vel_y = 0
@@ -30,8 +29,6 @@ class Player():
         self.direction = 0
         self.in_air = True
 
-
-    #desenhar o corno do jogador
     def update(self, GAME_STATE, TRAP_KILL, POINTS): 
         self.dx = 0
         self.dy = 0  
@@ -44,7 +41,7 @@ class Player():
         if TRAP_KILL == True:
             GAME_STATE = -1
             self.image = settings.dead_image
-        settings.screen.blit(self.image, self.player_rect)
+        settings.screen.blit(self.image, self.rect)  # Mudança aqui
         return GAME_STATE, POINTS
 
     def controls(self):
@@ -74,7 +71,7 @@ class Player():
             self.jumped = True  
         if keys[pygame.K_SPACE] == False:
             self.jumped = False
-            
+
     def load_sprite_images(self):
         for num in range(1, 4):
             img_player_right = pygame.image.load(f'resources/image/walk{num}.png')
@@ -88,11 +85,11 @@ class Player():
         if self.vel_y > 10:
             self.vel_y = 10
         self.dy += self.vel_y
-            
+
     def walk_animation(self):
         walk_delay = 5
         if self.counter > walk_delay:
-            self.counter = 0	
+            self.counter = 0    
             self.index += 1
             if self.index >= len(self.images_player_right):
                 self.index = 0
@@ -102,53 +99,48 @@ class Player():
                 self.image = self.images_player_left[self.index]
 
     def coordinates(self):
-        #atualiza coordenadas
-        self.player_rect.x += self.dx
-        self.player_rect.y += self.dy
+        self.rect.x += self.dx  # Mudança aqui
+        self.rect.y += self.dy  # Mudança aqui
 
-        if self.player_rect.bottom > HEIGHT:
-            self.player_rect.bottom = HEIGHT
+        if self.rect.bottom > HEIGHT:
+            self.rect.bottom = HEIGHT
             self.dy = 0
 
     def check_colision(self, TRAP_KILL, POINTS, GAME_STATE):
-        #checar se o corno colidiu
         self.in_air = True
         for tile in world.tile_list:
-            #clecar se o corno colidiu no x
-            if tile[1].colliderect(self.player_rect.x + self.dx, self.player_rect.y, self.width, self.height):
+            if tile[1].colliderect(self.rect.x + self.dx, self.rect.y, self.width, self.height):
                 self.dx = 0
-            #checar a colisão na direção Y
-            if tile[1].colliderect(self.player_rect.x, self.player_rect.y + self.dy, self.width, self.height):
-                #checar se estám a baixo do piso ou seja pulando
+            if tile[1].colliderect(self.rect.x, self.rect.y + self.dy, self.width, self.height):
                 if self.vel_y < 0:
-                    self.dy = tile[1].bottom - self.player_rect.top
+                    self.dy = tile[1].bottom - self.rect.top
                     self.vel_y = 0
-                #checar se estám a cima do piso ou seja caindo
                 elif self.vel_y >= 0:
-                    self.dy = tile[1].top - self.player_rect.bottom
+                    self.dy = tile[1].top - self.rect.bottom
                     self.vel_y = 0 
                     self.in_air = False
             
         for trap in trapGroup:
-                if self.player_rect.colliderect(trap.rect):
-                    TRAP_KILL = True
-                    sounds["gameOver"].play()
-                    trapGroup.remove(trap)
+            if self.rect.colliderect(trap.rect):
+                TRAP_KILL = True
+                sounds["gameOver"].play()
+                trapGroup.remove(trap)
 
         for fish in fishGroup:
-            if self.player_rect.colliderect(fish.rect):
+            if self.rect.colliderect(fish.rect):
                 POINTS += 3
                 sounds["mordida"].play()
                 fishGroup.remove(fish)
 
         for door in doorGroup:
-            if self.player_rect.colliderect(door.rect) and POINTS>=12:
+            if self.rect.colliderect(door.rect) and POINTS>=12:
                 GAME_STATE = 1
 
         for star in starGroup:
-            if self.player_rect.colliderect(star.rect):
+            if self.rect.colliderect(star.rect):
                 POINTS += 1
                 sounds["estrela"].play()
                 starGroup.remove(star)
-                    
+
         return TRAP_KILL, POINTS, GAME_STATE
+
