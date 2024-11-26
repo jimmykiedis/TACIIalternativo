@@ -46,10 +46,10 @@ class NaughtCats:
 
             for evento in pygame.event.get():                   #fechando o jogo
                 if evento.type == pygame.QUIT:
-                    run = False
+                    run = self.close(run)
                 if evento.type == pygame.KEYDOWN:
                     if evento.key == pygame.K_ESCAPE:
-                        run = False
+                        run = self.close(run)
                     if evento.key == pygame.K_p:
                         self.pauseScreen()
             
@@ -381,8 +381,8 @@ class NaughtCats:
                 game_data = next(reader)  # Lê a primeira linha de dados
 
                 # Converte os valores lidos para os tipos apropriados
-                pontos = int(game_data["score"])
-                tempo = int(game_data["time_elapsed"])
+                self.pontos = int(game_data["score"])
+                self.tempo = int(game_data["time_elapsed"])
 
                 # Inicia o jogo com os dados carregados
                 self.startGame()
@@ -406,5 +406,10 @@ class NaughtCats:
         world = World(world_data)
 
         return world
+    
+    def close(self, run):
+        run = False
+        pygame.quit()
+        return run
     
     pygame.quit()

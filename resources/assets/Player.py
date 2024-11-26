@@ -12,13 +12,13 @@ class Player():
         self.reset(x, y)
 
     def reset(self, x, y):
-        self.images_player_right = []
-        self.images_player_left = []
+        self.images_right = []
+        self.images_left = []
         self.index = 0
         self.counter = 0
 
         self.load_sprite_images()
-        self.image = self.images_player_right[self.index]
+        self.image = self.images_right[self.index]
         self.rect = self.image.get_rect()  # Mudança aqui
         self.rect.x = x
         self.rect.y = y
@@ -59,9 +59,9 @@ class Player():
             self.counter = 0
             self.index = 0
             if self.direction == 1:
-                self.image = self.images_player_right[self.index]
+                self.image = self.images_right[self.index]
             if self.direction == -1:
-                self.image = self.images_player_left[self.index]
+                self.image = self.images_left[self.index]
         if keys[pygame.K_UP] or keys[pygame.K_w]:
             print("Olhando para cima")
         if keys[pygame.K_DOWN] or keys[pygame.K_s]:
@@ -74,11 +74,11 @@ class Player():
 
     def load_sprite_images(self):
         for num in range(1, 4):
-            img_player_right = pygame.image.load(f'resources/image/walk{num}.png')
-            img_player_right = pygame.transform.scale(img_player_right, (64, 64))
-            img_player_left = pygame.transform.flip(img_player_right, True, False)
-            self.images_player_right.append(img_player_right)
-            self.images_player_left.append(img_player_left)
+            img_right = pygame.image.load(f'resources/image/walk{num}.png')
+            img_right = pygame.transform.scale(img_right, (64, 64))
+            img_left = pygame.transform.flip(img_right, True, False)
+            self.images_right.append(img_right)
+            self.images_left.append(img_left)
 
     def gravity(self):
         self.vel_y += 1
@@ -88,15 +88,16 @@ class Player():
 
     def walk_animation(self):
         walk_delay = 5
+        print(self.counter)
         if self.counter > walk_delay:
             self.counter = 0    
             self.index += 1
-            if self.index >= len(self.images_player_right):
+            if self.index >= len(self.images_right):
                 self.index = 0
             if self.direction == 1:
-                self.image = self.images_player_right[self.index]
+                self.image = self.images_right[self.index]
             if self.direction == -1:
-                self.image = self.images_player_left[self.index]
+                self.image = self.images_left[self.index]
 
     def coordinates(self):
         self.rect.x += self.dx  # Mudança aqui
