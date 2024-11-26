@@ -27,7 +27,7 @@ class Trap(pygame.sprite.Sprite):
 	def __init__(self, x, y):
 		pygame.sprite.Sprite.__init__(self)
 		trap_img = pygame.image.load('resources/image/trap.png')
-		self.image = pygame.transform.scale(trap_img, (55, 60))
+		self.image = pygame.transform.scale(trap_img, (50, 50))
 		self.rect = self.image.get_rect()
 		self.rect.x = x
 		self.rect.y = y

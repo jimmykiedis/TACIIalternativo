@@ -67,7 +67,7 @@ class NaughtCats:
             doorGroup.update(POINTS)
             starGroup.draw(settings.screen)
             GAME_STATE, POINTS = self.player.update(GAME_STATE, TRAP_KILL, POINTS)
-            world.draw_grid()
+            #world.draw_grid()
             
 
             if GAME_STATE == -1:
