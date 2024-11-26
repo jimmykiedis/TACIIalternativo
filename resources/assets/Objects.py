@@ -32,7 +32,7 @@ class Trap(pygame.sprite.Sprite):
 		self.rect.x = x
 		self.rect.y = y
         
-class Door(pygame.sprite.Sprite):
+class Porta(pygame.sprite.Sprite):
 	def __init__(self, x, y):
 		pygame.sprite.Sprite.__init__(self)
 		self.image = pygame.image.load('resources/image/portaFechada.png')

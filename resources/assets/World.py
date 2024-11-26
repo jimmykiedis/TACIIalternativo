@@ -47,7 +47,7 @@ class World():
 					trapGroup.add(traps)
 				
 				if tile == 5:
-					door = Door(col_count * TILE_SIZE, row_count * TILE_SIZE - 30)
+					door = Porta(col_count * TILE_SIZE, row_count * TILE_SIZE - 30)
 					doorGroup.add(door)
 				
 				if tile == 6:

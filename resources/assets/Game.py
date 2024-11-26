@@ -11,11 +11,16 @@ from os import path
 
 class NaughtCats:
 
+    def __init__(self):
+        self.pontos = 0
+        self.tempo = 0
+
     def play(self):
         settings.setup()    
         self.initialScreen()
 
     def startGame(self):
+        pygame.mixer.music.play(-1)
         # GAME_STATE == 0, NORMAL
         # GAME_STATE == -1, GAME OVER
         # GAME_STATE == 1, NEXT LEVEL
@@ -67,6 +72,8 @@ class NaughtCats:
 
             if GAME_STATE == -1:
                 cont_game_state += 1
+                if cont_game_state == 1:  # Apenas na primeira iteração quando entra no estado de Game Over
+                    pygame.mixer.music.stop()  # Para a música imediatamente
                 if cont_game_state == 120:
                     self.gameOverScreen()
             
@@ -125,6 +132,8 @@ class NaughtCats:
             text_rect = text_obj.get_rect(center=(x, y))
             surface.blit(text_obj, text_rect)
 
+        sounds = Settings.setup_mixer()
+        
         # Loop principal
         running = True
         while running:
@@ -251,7 +260,6 @@ class NaughtCats:
             text_rect = text_obj.get_rect(center=(x, y))
             surface.blit(text_obj, text_rect)
 
-        
         running = True
         while running:
             for event in pygame.event.get():
@@ -373,8 +381,8 @@ class NaughtCats:
                 game_data = next(reader)  # Lê a primeira linha de dados
 
                 # Converte os valores lidos para os tipos apropriados
-                self.pontos = int(game_data["score"])
-                self.tempo = int(game_data["time_elapsed"])
+                pontos = int(game_data["score"])
+                tempo = int(game_data["time_elapsed"])
 
                 # Inicia o jogo com os dados carregados
                 self.startGame()
@@ -398,6 +406,5 @@ class NaughtCats:
         world = World(world_data)
 
         return world
-
     
     pygame.quit()

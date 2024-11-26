@@ -5,6 +5,7 @@ from .World import *
 from .Game import *
 
 SCORE_COUTER = 0
+sounds = Settings.setup_mixer()
 
 class Player():
     def __init__(self, x, y):
@@ -131,11 +132,13 @@ class Player():
         for trap in trapGroup:
                 if self.player_rect.colliderect(trap.rect):
                     TRAP_KILL = True
+                    sounds["gameOver"].play()
                     trapGroup.remove(trap)
 
         for fish in fishGroup:
             if self.player_rect.colliderect(fish.rect):
                 POINTS += 3
+                sounds["mordida"].play()
                 fishGroup.remove(fish)
 
         for door in doorGroup:
@@ -145,6 +148,7 @@ class Player():
         for star in starGroup:
             if self.player_rect.colliderect(star.rect):
                 POINTS += 1
+                sounds["estrela"].play()
                 starGroup.remove(star)
                     
         return TRAP_KILL, POINTS, GAME_STATE

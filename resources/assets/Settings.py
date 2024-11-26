@@ -48,6 +48,35 @@ class Settings:
             self.button_font = pygame.font.Font(None, 40)  # Fonte padrão do sistema
             self.title_font = pygame.font.Font(None, 60)
 
+    def setup_mixer():
+
+        pygame.mixer.init()
+
+        pygame.mixer.music.set_volume(0.3)
+
+        TRILHA_SONORA = 'resources/sounds/trilha.mp3'
+        pygame.mixer.music.load(TRILHA_SONORA)
+
+        SOM_GAMEOVER = pygame.mixer.Sound('resources/sounds/gameOver.wav')
+        SOM_GAMEOVER.set_volume(0.1)
+
+        SOM_MIADO = pygame.mixer.Sound('resources/sounds/miado.wav')
+        SOM_MIADO.set_volume(0.1)
+
+        SOM_ESTRELA = pygame.mixer.Sound('resources/sounds/estrela.wav')
+        SOM_ESTRELA.set_volume(0.1)
+
+        SOM_MORDIDA = pygame.mixer.Sound('resources/sounds/mordida.wav')
+        SOM_MORDIDA.set_volume(0.1)
+
+        return {
+            "trilha": TRILHA_SONORA,
+            "gameOver": SOM_GAMEOVER,
+            "miado": SOM_MIADO,
+            "estrela": SOM_ESTRELA,
+            "mordida": SOM_MORDIDA
+    }
+
 class ImageButton:
     def __init__(self, image_path, x, y):
         self.image = pygame.image.load(image_path).convert_alpha()  # Carregar a imagem com transparência
