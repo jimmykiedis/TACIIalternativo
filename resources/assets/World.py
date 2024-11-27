@@ -73,7 +73,7 @@ class World():
 			pygame.draw.line(settings.screen, (255, 255, 255), (0, line * TILE_SIZE), (WIDTH, line * TILE_SIZE))
 			pygame.draw.line(settings.screen, (255, 255, 255), (line * TILE_SIZE, 0), (line * TILE_SIZE, HEIGHT))
 			
-
+'''
 world_data = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7],
@@ -95,12 +95,13 @@ world_data = [
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ]
-#with open('level1.pkl', 'wb') as f:
-#    pickle.dump(world_data, f)
+with open('resources/assets/level/level.pkl', 'wb') as f:
+    pickle.dump(world_data, f)
+'''
 trapGroup = pygame.sprite.Group()
 starGroup = pygame.sprite.Group()
 fishGroup = pygame.sprite.Group()
 doorGroup = pygame.sprite.Group()
-#pickle_in = open('resouces/assets/level/level1.pkl', 'rb')
-#world_data = pickle.load(pickle_in)
+pickle_in = open('resources/assets/level/level.pkl', 'rb')
+world_data = pickle.load(pickle_in)
 world = World(world_data)
