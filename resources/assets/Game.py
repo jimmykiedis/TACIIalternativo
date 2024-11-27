@@ -348,7 +348,7 @@ class NaughtCats:
 
     def saveGame(self):
         # Define o nome do arquivo CSV onde o estado do jogo será salvo
-        save_file = "resources/assets/naught_cats_save.csv"
+        save_file = "saveState/naught_cats_save.csv"
 
         # Exemplo de dados do jogo que serão salvos
         game_data = {
